@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>은평구민 정보화교육 자가진단 도우미</title>
+<style>
+:root{--deep:#176b52;--main:#2b8a6e;--light:#e9f7f1;--line:#cfe7de;--accent:#f28c45;--ink:#17352d;--paper:#fff;--ok:#1f8a5b;--warn:#c0392b}
+*{box-sizing:border-box}body{margin:0;font-family:"Noto Sans KR","Apple SD Gothic Neo",sans-serif;background:linear-gradient(180deg,#eefaf6 0%,#f9fdfb 100%);color:var(--ink);line-height:1.55}
+.wrap{max-width:760px;margin:auto;padding:0 18px 60px}.hero{text-align:center;padding:38px 0 20px}.eyebrow{display:inline-block;background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 14px;color:var(--main);font-weight:800;font-size:14px}
+h1{color:var(--deep);font-size:31px;margin:12px 0 6px}.hero p{margin:0;color:#4b6d62}.progress{display:flex;gap:6px;justify-content:center;margin:18px 0 28px}.dot{flex:1;max-width:70px;height:6px;border-radius:6px;background:var(--line)}.dot.done{background:var(--main)}.dot.now{background:var(--accent)}
+.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px 22px;box-shadow:0 12px 30px -18px rgba(23,107,82,.28);margin-bottom:18px}.step-tag{display:inline-block;color:var(--main);background:var(--light);font-size:13.5px;font-weight:800;border-radius:8px;padding:4px 10px}.card h2{font-size:20px;color:var(--deep);margin:10px 0 6px}.desc{color:#55736a;font-size:15px;margin:0 0 18px}
+input[type=text]{width:100%;font-size:17px;padding:14px 16px;border:2px solid var(--line);border-radius:12px;outline:none}input[type=text]:focus{border-color:var(--main)}
+.status{display:none;margin-top:12px;padding:12px 14px;border-radius:12px;font-weight:700}.status.ok{display:block;background:#eaf8f0;color:var(--ok)}.status.warn{display:block;background:#fdecea;color:var(--warn)}
+.chip-row{display:flex;flex-wrap:wrap;gap:8px}.chip{border:1.5px solid var(--line);background:var(--light);color:var(--deep);padding:8px 14px;border-radius:999px;font-weight:700;cursor:pointer}.chip.active{background:var(--main);color:#fff;border-color:var(--main)}
+.btn-row{display:flex;gap:10px;margin-top:22px}.primary,.ghost,.toggle{font:inherit;font-weight:800;border-radius:12px;padding:13px 18px;cursor:pointer}.primary{border:0;background:linear-gradient(135deg,#f5a05d,var(--accent));color:#fff;flex:1}.primary:disabled{opacity:.4;cursor:not-allowed}.ghost{border:0;background:var(--light);color:var(--main)}
+.qblock{margin-bottom:22px}.qtitle{font-weight:800;margin-bottom:9px}.opt-list{display:flex;flex-direction:column;gap:8px}.opt{text-align:left;border:2px solid var(--line);background:#fcfffd;border-radius:12px;padding:12px 14px;font:inherit;cursor:pointer}.opt.selected{border-color:var(--main);background:var(--light);font-weight:800}
+.level-pill{display:inline-block;background:var(--deep);color:#fff;border-radius:999px;padding:6px 14px;font-weight:800;font-size:14px}.result-head{text-align:center}.rec-card{border:2px solid var(--main);border-radius:16px;padding:18px;margin-top:18px;background:linear-gradient(#f4fcf8,#fff)}.rec-badge{display:inline-block;background:var(--accent);color:#fff;border-radius:999px;padding:3px 11px;font-size:13px;font-weight:800}.rec-name{font-size:18px;font-weight:900;color:var(--deep);margin:8px 0}.rec-meta{display:flex;flex-wrap:wrap;gap:6px}.tag{background:var(--light);color:var(--main);border-radius:8px;padding:4px 8px;font-size:13px;font-weight:700}.why{color:var(--main);font-size:13.5px;font-weight:800;margin-top:10px}
+.info{margin-top:14px;background:var(--light);border-radius:12px;padding:14px 16px;font-size:14px;color:#48685e}.call{color:#d96f2c;font-weight:900}.toggle{width:100%;margin-top:16px;border:2px solid var(--main);background:#fff;color:var(--main)}.schedule{margin-top:14px}.group{margin-bottom:16px}.group h4{color:var(--deep);margin:0 0 8px}.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:#f7fbf9;border-radius:10px;padding:9px 12px;margin-bottom:6px;font-size:14px}.row .name{font-weight:800;flex:1;min-width:190px}.restart{display:block;margin:22px auto 0;background:none;border:0;color:var(--main);font-weight:800;text-decoration:underline;cursor:pointer}.hidden{display:none!important}footer{text-align:center;color:#789087;font-size:13px;margin-top:30px}
+</style>
+</head>
+<body><div class="wrap">
+<header class="hero"><span class="eyebrow">🌿 은평구민 정보화교육</span><h1>내게 맞는 강좌 찾기</h1><p>관심 분야와 현재 수준을 확인하고 10월 강좌를 추천받아 보세요.</p></header>
+<div class="progress" id="progress"></div>
+
+<section class="card step" id="step1">
+<span class="step-tag">STEP 1 · 거주지 확인</span><h2>은평구민이신가요?</h2>
+<p class="desc">동 이름을 입력해 주세요. 은평구 소재 사업자 또는 종사자도 집합교육 신청 대상입니다.</p>
+<input type="text" id="dongInput" placeholder="예: 응암동, 불광동, 녹번동">
+<div id="dongStatus" class="status"></div>
+<div class="btn-row"><button class="primary" id="toStep2" disabled>다음으로</button></div>
+</section>
+
+<section class="card step hidden" id="step2">
+<span class="step-tag">STEP 2 · 관심 분야</span><h2>무엇을 배우고 싶으세요?</h2>
+<p class="desc">직접 입력하거나 관심 분야를 골라주세요. 여러 개 선택할 수 있어요.</p>
+<input type="text" id="interestInput" placeholder="예: 한글, AI, 스마트폰, 엑셀, 사진편집...">
+<div class="chip-row" id="chipRow" style="margin-top:12px"></div>
+<div class="btn-row"><button class="ghost" id="back2">이전</button><button class="primary" id="toStep3" disabled>다음으로</button></div>
+</section>
+
+<section class="card step hidden" id="step3">
+<span class="step-tag">STEP 3 · 간단 자가진단</span><h2>현재 수준을 알려주세요</h2>
+<p class="desc">세 문항에 답하면 안내문의 난이도와 관심 분야를 함께 반영해 추천해 드려요.</p>
+<div id="quizArea"></div>
+<div class="btn-row"><button class="ghost" id="back3">이전</button><button class="primary" id="toStep4" disabled>추천 결과 보기</button></div>
+</section>
+
+<section class="card step hidden" id="step4">
+<span class="step-tag">STEP 4 · 추천 결과</span><h2>10월 추천 강좌예요</h2>
+<div class="result-head" id="resultHead"></div><div id="resultBody"></div>
+<div class="info"><b>집합교육 신청 안내</b><br>신청기간: 2026. 9. 14.(월) 09:00 ~ 9. 18.(금) 18:00<br>신청: 은평구청 홈페이지 또는 은평문화예술회관 제2문화강좌실 방문접수<br>선정방법: 선착순 모집 · 수강료 무료<br>교육상담 <span class="call">☎ 02-351-8432</span></div>
+<button class="toggle" id="scheduleToggle">10월 전체 시간표 보기</button><div class="schedule hidden" id="scheduleTable"></div>
+<button class="restart" id="restartBtn">처음부터 다시 진단하기 ↺</button>
+</section>
+<footer>은평구민 정보화교육 · 교육상담 <b>02-351-8432</b> · 본 도우미는 참고용이며 실제 신청은 은평구 안내를 확인해 주세요.</footer>
+</div>
+
+<script>
+const COURSES=[
+{place:"은평문화예술회관 지하1층 제2문화강좌실",period:"10/7~10/28",days:"월수",time:"10:00-12:00",name:"한글 문서작성 기초",level:2,cap:30,cats:["한글","문서","컴퓨터","기초"]},
+{place:"은평문화예술회관 지하1층 제2문화강좌실",period:"10/7~10/28",days:"월수",time:"13:00-15:00",name:"생활 밀착형 앱 활용(교통, 예약, 번역 등)",level:3,cap:30,cats:["스마트폰","앱","교통","예약","번역"]},
+{place:"은평문화예술회관 지하1층 제2문화강좌실",period:"10/7~10/28",days:"월수",time:"15:30-17:30",name:"생성형 AI 활용(챗GPT, 제미나이 등)",level:3,cap:30,cats:["ai","챗gpt","chatgpt","제미나이","생성형"]},
+{place:"은평문화예술회관 지하1층 제2문화강좌실",period:"10/1~10/27",days:"화목",time:"10:00-12:00",name:"키네마스터 모바일 영상편집",level:3,cap:30,cats:["영상","영상편집","키네마스터","스마트폰","모바일"]},
+{place:"은평문화예술회관 지하1층 제2문화강좌실",period:"10/1~10/27",days:"화목",time:"13:00-15:00",name:"파워포인트 기초",level:2,cap:30,cats:["파워포인트","ppt","컴퓨터","기초","문서"]},
+{place:"은평문화예술회관 지하1층 제2문화강좌실",period:"10/1~10/27",days:"화목",time:"15:30-17:30",name:"포토스케이프 X",level:3,cap:30,cats:["사진","사진편집","포토스케이프","pc"]},
+{place:"응암3동 주민센터 3층",period:"10/1~10/27",days:"화목",time:"10:00-12:00",name:"컴퓨터 기초(윈도우 11)",level:1,cap:20,cats:["컴퓨터","기초","윈도우","windows"]},
+{place:"응암3동 주민센터 3층",period:"10/1~10/27",days:"화목",time:"13:00-15:00",name:"엑셀 기초",level:2,cap:20,cats:["엑셀","excel","컴퓨터","기초","사무"]},
+{place:"응암3동 주민센터 3층",period:"10/1~10/27",days:"화목",time:"15:30-17:30",name:"모바일 정보검색",level:2,cap:20,cats:["스마트폰","모바일","검색","인터넷"]},
+{place:"불광2동 주민센터",period:"10/7~10/28",days:"월수",time:"10:00-11:30",name:"스마트폰 기본 앱 활용",level:2,cap:20,cats:["스마트폰","앱","기본","모바일"]}
+];
+const ONLINE=[
+{period:"10/1~10/13",days:"화목",time:"15:30-17:30",name:"구글 앱 활용 with AI"},
+{period:"10/15~10/27",days:"화목",time:"15:30-17:30",name:"내 컴퓨터 관리하기"}
+];
+const chips=["컴퓨터 기초","스마트폰·앱","한글","엑셀","파워포인트","AI·챗GPT","영상편집","사진편집","정보검색"];
+const quiz=[
+{q:"컴퓨터나 스마트폰 사용은 어느 정도 익숙한가요?",a:[["거의 처음이에요",1],["기본적인 사용은 할 수 있어요",2],["여러 기능을 활용할 수 있어요",3],["새 기능도 스스로 익힐 수 있어요",4]]},
+{q:"파일 저장, 앱 설치, 인터넷 검색은 어떤가요?",a:[["도움이 꼭 필요해요",1],["설명을 보면 할 수 있어요",2],["대부분 혼자 할 수 있어요",3],["다른 사람에게 알려줄 수도 있어요",4]]},
+{q:"수업에서 어느 정도 수준을 원하시나요?",a:[["아주 기초부터 천천히",1],["기본 활용 중심",2],["다양한 기능을 직접 활용",3],["새로운 기능도 적극 활용",4]]}
+];
+let state={step:1,interest:"",chips:[],answers:{}};
+const $=id=>document.getElementById(id);
+function showStep(n){state.step=n;document.querySelectorAll(".step").forEach((e,i)=>e.classList.toggle("hidden",i!==n-1));renderProgress();scrollTo({top:0,behavior:"smooth"})}
+function renderProgress(){$("progress").innerHTML=[1,2,3,4].map(n=>`<span class="dot ${n<state.step?"done":n===state.step?"now":""}"></span>`).join("")}
+function validDong(v){let t=v.trim().replace(/\s/g,"");return /은평구/.test(t)||/(녹번|불광|갈현|구산|대조|응암|역촌|신사|증산|수색|진관)([0-9]{0,2})?동$/.test(t)}
+$("dongInput").oninput=e=>{let ok=validDong(e.target.value);$("dongStatus").className="status "+(ok?"ok":"warn");$("dongStatus").textContent=ok?"✓ 은평구 지역으로 확인됐어요.":"은평구의 동 이름을 입력해 주세요."; $("toStep2").disabled=!ok};
+$("toStep2").onclick=()=>showStep(2);$("back2").onclick=()=>showStep(1);$("back3").onclick=()=>showStep(2);
+
+$("chipRow").innerHTML=chips.map(c=>`<span class="chip">${c}</span>`).join("");
+function updateInterest(){state.interest=$("interestInput").value.trim();$("toStep3").disabled=!(state.interest||state.chips.length)}
+$("interestInput").oninput=updateInterest;
+document.querySelectorAll(".chip").forEach(x=>x.onclick=()=>{x.classList.toggle("active");state.chips=[...document.querySelectorAll(".chip.active")].map(e=>e.textContent);updateInterest()});
+$("toStep3").onclick=()=>showStep(3);
+
+$("quizArea").innerHTML=quiz.map((q,i)=>`<div class="qblock"><div class="qtitle">${i+1}. ${q.q}</div><div class="opt-list">${q.a.map(a=>`<button class="opt" data-q="${i}" data-v="${a[1]}">${a[0]}</button>`).join("")}</div></div>`).join("");
+document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{document.querySelectorAll(`.opt[data-q="${b.dataset.q}"]`).forEach(x=>x.classList.remove("selected"));b.classList.add("selected");state.answers[b.dataset.q]=+b.dataset.v;$("toStep4").disabled=Object.keys(state.answers).length<3});
+function level(){return Math.round(Object.values(state.answers).reduce((a,b)=>a+b,0)/3)}
+function stars(n){let m=Math.min(4,n);return "★".repeat(m)+"☆".repeat(4-m)}
+function score(c,l){let s=Math.max(0,5-Math.abs(c.level-l)*2),text=(state.interest+" "+state.chips.join(" ")).toLowerCase(),hay=(c.name+" "+c.cats.join(" ")).toLowerCase();for(let k of text.split(/[\s·,]+/)){if(k.length>1&&hay.includes(k))s+=6}return s}
+$("toStep4").onclick=()=>{showStep(4);renderResult()};
+function renderResult(){
+ let l=level(),ranked=COURSES.map(c=>({c,s:score(c,l)})).sort((a,b)=>b.s-a.s||Math.abs(a.c.level-l)-Math.abs(b.c.level-l)).slice(0,2);
+ $("resultHead").innerHTML=`<div class="level-pill">현재 수준 · ${l===1?"입문":l===2?"기초":l===3?"활용":"심화"} (${stars(l)})</div>`;
+ $("resultBody").innerHTML=ranked.map((x,i)=>`<div class="rec-card"><span class="rec-badge">추천 ${i+1}</span><div class="rec-name">${x.c.name}</div><div class="rec-meta"><span class="tag">${x.c.place}</span><span class="tag">${x.c.days} ${x.c.time}</span><span class="tag">${x.c.period}</span><span class="tag">난이도 ${stars(x.c.level)}</span><span class="tag">정원 ${x.c.cap}명</span></div><div class="why">✓ 관심 분야와 자가진단 수준을 함께 반영한 추천이에요.</div></div>`).join("");
+ renderSchedule();
+}
+function renderSchedule(){
+ let groups={};COURSES.forEach(c=>(groups[c.place]??=[]).push(c));
+ let html=Object.entries(groups).map(([p,v])=>`<div class="group"><h4>${p}</h4>${v.map(c=>`<div class="row"><span class="tag">${c.period}</span><span class="tag">${c.days} ${c.time}</span><span class="name">${c.name}</span><span class="tag">${stars(c.level)}</span></div>`).join("")}</div>`).join("");
+ html+=`<div class="group"><h4>은평구 정보화교육 YouTube 채널 · 온라인교육</h4>${ONLINE.map(c=>`<div class="row"><span class="tag">${c.period}</span><span class="tag">${c.days} ${c.time}</span><span class="name">${c.name}</span><span class="tag">무료 시청</span></div>`).join("")}<p class="desc">온라인교육은 신청 없이 누구나 시청 가능하며 수료증은 발급되지 않습니다.</p></div>`;
+ $("scheduleTable").innerHTML=html;
+}
+$("scheduleToggle").onclick=()=>{let x=$("scheduleTable");x.classList.toggle("hidden");$("scheduleToggle").textContent=x.classList.contains("hidden")?"10월 전체 시간표 보기":"10월 전체 시간표 닫기"};
+$("restartBtn").onclick=()=>{state={step:1,interest:"",chips:[],answers:{}};$("dongInput").value="";$("interestInput").value="";$("dongStatus").className="status";document.querySelectorAll(".active,.selected").forEach(x=>x.classList.remove("active","selected"));$("toStep2").disabled=true;$("toStep3").disabled=true;$("toStep4").disabled=true;$("scheduleTable").classList.add("hidden");$("scheduleToggle").textContent="10월 전체 시간표 보기";showStep(1)};
+renderProgress();
+</script>
+</body>
+</html>
