@@ -20,7 +20,7 @@ input[type=text]{width:100%;font-size:17px;padding:14px 16px;border:2px solid va
 </style>
 </head>
 <body><div class="wrap">
-<header class="hero"><span class="eyebrow">🌿 은평구민 정보화교육</span><h1>내게 맞는 강좌 찾기</h1><p>관심 분야와 현재 수준을 확인하고 10월 강좌를 추천받아 보세요.</p></header>
+<header class="hero"><span class="eyebrow">🌿 은평구민 정보화교육</span><h1>내게 맞는 강좌 찾기</h1><p>관심 분야와 현재 수준을 확인하고 11월 강좌를 추천받아 보세요.</p></header>
 <div class="progress" id="progress"></div>
 
 <section class="card step" id="step1">
@@ -34,7 +34,7 @@ input[type=text]{width:100%;font-size:17px;padding:14px 16px;border:2px solid va
 <section class="card step hidden" id="step2">
 <span class="step-tag">STEP 2 · 관심 분야</span><h2>무엇을 배우고 싶으세요?</h2>
 <p class="desc">직접 입력하거나 관심 분야를 골라주세요. 여러 개 선택할 수 있어요.</p>
-<input type="text" id="interestInput" placeholder="예: 한글, AI, 스마트폰, 엑셀, 사진편집...">
+<input type="text" id="interestInput" placeholder="예: 한글, 캔바, 스마트폰, 엑셀, 유튜브...">
 <div class="chip-row" id="chipRow" style="margin-top:12px"></div>
 <div class="btn-row"><button class="ghost" id="back2">이전</button><button class="primary" id="toStep3" disabled>다음으로</button></div>
 </section>
@@ -47,10 +47,10 @@ input[type=text]{width:100%;font-size:17px;padding:14px 16px;border:2px solid va
 </section>
 
 <section class="card step hidden" id="step4">
-<span class="step-tag">STEP 4 · 추천 결과</span><h2>10월 추천 강좌예요</h2>
+<span class="step-tag">STEP 4 · 추천 결과</span><h2>11월 추천 강좌예요</h2>
 <div class="result-head" id="resultHead"></div><div id="resultBody"></div>
-<div class="info"><b>집합교육 신청 안내</b><br>신청기간: 2026. 9. 14.(월) 09:00 ~ 9. 18.(금) 18:00<br>신청: 은평구청 홈페이지 또는 은평문화예술회관 제2문화강좌실 방문접수<br>선정방법: 선착순 모집 · 수강료 무료<br>교육상담 <span class="call">☎ 02-351-8432</span></div>
-<button class="toggle" id="scheduleToggle">10월 전체 시간표 보기</button><div class="schedule hidden" id="scheduleTable"></div>
+<div class="info"><b>집합교육 신청 안내</b><br>신청기간: 2026. 10. 19.(월) 09:00 ~ 10. 23.(금) 18:00<br>신청: 은평구청 홈페이지 또는 은평문화예술회관 제2문화강좌실 방문접수<br>선정방법: 선착순 모집 · 수강료 무료<br>교육상담 <span class="call">☎ 02-351-8432</span></div>
+<button class="toggle" id="scheduleToggle">11월 전체 시간표 보기</button><div class="schedule hidden" id="scheduleTable"></div>
 <button class="restart" id="restartBtn">처음부터 다시 진단하기 ↺</button>
 </section>
 <footer>은평구민 정보화교육 · 교육상담 <b>02-351-8432</b> · 본 도우미는 참고용이며 실제 신청은 은평구 안내를 확인해 주세요.</footer>
@@ -58,22 +58,170 @@ input[type=text]{width:100%;font-size:17px;padding:14px 16px;border:2px solid va
 
 <script>
 const COURSES=[
-{place:"은평문화예술회관 지하1층 제2문화강좌실",period:"10/7~10/28",days:"월수",time:"10:00-12:00",name:"한글 문서작성 기초",level:2,cap:30,cats:["한글","문서","컴퓨터","기초"]},
-{place:"은평문화예술회관 지하1층 제2문화강좌실",period:"10/7~10/28",days:"월수",time:"13:00-15:00",name:"생활 밀착형 앱 활용(교통, 예약, 번역 등)",level:3,cap:30,cats:["스마트폰","앱","교통","예약","번역"]},
-{place:"은평문화예술회관 지하1층 제2문화강좌실",period:"10/7~10/28",days:"월수",time:"15:30-17:30",name:"생성형 AI 활용(챗GPT, 제미나이 등)",level:3,cap:30,cats:["ai","챗gpt","chatgpt","제미나이","생성형"]},
-{place:"은평문화예술회관 지하1층 제2문화강좌실",period:"10/1~10/27",days:"화목",time:"10:00-12:00",name:"키네마스터 모바일 영상편집",level:3,cap:30,cats:["영상","영상편집","키네마스터","스마트폰","모바일"]},
-{place:"은평문화예술회관 지하1층 제2문화강좌실",period:"10/1~10/27",days:"화목",time:"13:00-15:00",name:"파워포인트 기초",level:2,cap:30,cats:["파워포인트","ppt","컴퓨터","기초","문서"]},
-{place:"은평문화예술회관 지하1층 제2문화강좌실",period:"10/1~10/27",days:"화목",time:"15:30-17:30",name:"포토스케이프 X",level:3,cap:30,cats:["사진","사진편집","포토스케이프","pc"]},
-{place:"응암3동 주민센터 3층",period:"10/1~10/27",days:"화목",time:"10:00-12:00",name:"컴퓨터 기초(윈도우 11)",level:1,cap:20,cats:["컴퓨터","기초","윈도우","windows"]},
-{place:"응암3동 주민센터 3층",period:"10/1~10/27",days:"화목",time:"13:00-15:00",name:"엑셀 기초",level:2,cap:20,cats:["엑셀","excel","컴퓨터","기초","사무"]},
-{place:"응암3동 주민센터 3층",period:"10/1~10/27",days:"화목",time:"15:30-17:30",name:"모바일 정보검색",level:2,cap:20,cats:["스마트폰","모바일","검색","인터넷"]},
-{place:"불광2동 주민센터",period:"10/7~10/28",days:"월수",time:"10:00-11:30",name:"스마트폰 기본 앱 활용",level:2,cap:20,cats:["스마트폰","앱","기본","모바일"]}
+  {
+    "place": "은평문화예술회관 지하1층 제2문화강좌실",
+    "period": "11/2~11/25",
+    "days": "월수",
+    "time": "10:00-12:00",
+    "name": "한글 문서작성 활용",
+    "level": 3,
+    "cap": 30,
+    "cats": [
+      "한글",
+      "문서",
+      "컴퓨터"
+    ]
+  },
+  {
+    "place": "은평문화예술회관 지하1층 제2문화강좌실",
+    "period": "11/2~11/25",
+    "days": "월수",
+    "time": "13:00-15:00",
+    "name": "유튜브 크리에이터 되기 & 인스타그램",
+    "level": 2,
+    "cap": 30,
+    "cats": [
+      "유튜브",
+      "영상",
+      "크리에이터",
+      "인스타그램",
+      "sns"
+    ]
+  },
+  {
+    "place": "은평문화예술회관 지하1층 제2문화강좌실",
+    "period": "11/2~11/25",
+    "days": "월수",
+    "time": "15:30-17:30",
+    "name": "AI 디자인 플랫폼 Canva",
+    "level": 3,
+    "cap": 30,
+    "cats": [
+      "ai",
+      "디자인",
+      "canva",
+      "캔바"
+    ]
+  },
+  {
+    "place": "은평문화예술회관 지하1층 제2문화강좌실",
+    "period": "11/3~11/26",
+    "days": "화목",
+    "time": "10:00-12:00",
+    "name": "컴퓨터 기초",
+    "level": 1,
+    "cap": 30,
+    "cats": [
+      "컴퓨터",
+      "기초",
+      "윈도우"
+    ]
+  },
+  {
+    "place": "은평문화예술회관 지하1층 제2문화강좌실",
+    "period": "11/3~11/26",
+    "days": "화목",
+    "time": "13:00-15:00",
+    "name": "파워포인트 활용",
+    "level": 3,
+    "cap": 30,
+    "cats": [
+      "파워포인트",
+      "ppt",
+      "문서",
+      "컴퓨터"
+    ]
+  },
+  {
+    "place": "은평문화예술회관 지하1층 제2문화강좌실",
+    "period": "11/3~11/26",
+    "days": "화목",
+    "time": "15:30-17:30",
+    "name": "스마트폰 기초",
+    "level": 1,
+    "cap": 30,
+    "cats": [
+      "스마트폰",
+      "기초",
+      "모바일"
+    ]
+  },
+  {
+    "place": "응암3동 주민센터 3층",
+    "period": "11/3~11/26",
+    "days": "화목",
+    "time": "10:00-12:00",
+    "name": "컴퓨터 활용(윈도우 11)",
+    "level": 2,
+    "cap": 20,
+    "cats": [
+      "컴퓨터",
+      "윈도우",
+      "windows"
+    ]
+  },
+  {
+    "place": "응암3동 주민센터 3층",
+    "period": "11/3~11/26",
+    "days": "화목",
+    "time": "13:00-15:00",
+    "name": "엑셀 활용",
+    "level": 3,
+    "cap": 20,
+    "cats": [
+      "엑셀",
+      "excel",
+      "사무",
+      "컴퓨터"
+    ]
+  },
+  {
+    "place": "응암3동 주민센터 3층",
+    "period": "11/3~11/26",
+    "days": "화목",
+    "time": "15:30-17:30",
+    "name": "인터넷 기초",
+    "level": 2,
+    "cap": 20,
+    "cats": [
+      "인터넷",
+      "검색",
+      "컴퓨터"
+    ]
+  },
+  {
+    "place": "불광2동 주민센터",
+    "period": "11/2~11/25",
+    "days": "월수",
+    "time": "10:00-11:30",
+    "name": "스마트폰 기본 앱 활용",
+    "level": 1,
+    "cap": 20,
+    "cats": [
+      "스마트폰",
+      "앱",
+      "모바일",
+      "기본"
+    ]
+  }
 ];
 const ONLINE=[
-{period:"10/1~10/13",days:"화목",time:"15:30-17:30",name:"구글 앱 활용 with AI"},
-{period:"10/15~10/27",days:"화목",time:"15:30-17:30",name:"내 컴퓨터 관리하기"}
+  {
+    "period": "11/3~11/12",
+    "days": "화목",
+    "time": "15:30-17:30",
+    "name": "엑셀 업무문서 만들기",
+    "level": 2
+  },
+  {
+    "period": "11/17~11/26",
+    "days": "화목",
+    "time": "15:30-17:30",
+    "name": "생성형 AI Vrew(브루)로 영상 만들기",
+    "level": 3
+  }
 ];
-const chips=["컴퓨터 기초","스마트폰·앱","한글","엑셀","파워포인트","AI·챗GPT","영상편집","사진편집","정보검색"];
+const chips=["컴퓨터 기초","스마트폰·앱","한글","엑셀","파워포인트","AI·캔바","유튜브·인스타그램","영상편집","정보검색"];
 const quiz=[
 {q:"컴퓨터나 스마트폰 사용은 어느 정도 익숙한가요?",a:[["거의 처음이에요",1],["기본적인 사용은 할 수 있어요",2],["여러 기능을 활용할 수 있어요",3],["새 기능도 스스로 익힐 수 있어요",4]]},
 {q:"파일 저장, 앱 설치, 인터넷 검색은 어떤가요?",a:[["도움이 꼭 필요해요",1],["설명을 보면 할 수 있어요",2],["대부분 혼자 할 수 있어요",3],["다른 사람에게 알려줄 수도 있어요",4]]},
@@ -108,11 +256,11 @@ function renderResult(){
 function renderSchedule(){
  let groups={};COURSES.forEach(c=>(groups[c.place]??=[]).push(c));
  let html=Object.entries(groups).map(([p,v])=>`<div class="group"><h4>${p}</h4>${v.map(c=>`<div class="row"><span class="tag">${c.period}</span><span class="tag">${c.days} ${c.time}</span><span class="name">${c.name}</span><span class="tag">${stars(c.level)}</span></div>`).join("")}</div>`).join("");
- html+=`<div class="group"><h4>은평구 정보화교육 YouTube 채널 · 온라인교육</h4>${ONLINE.map(c=>`<div class="row"><span class="tag">${c.period}</span><span class="tag">${c.days} ${c.time}</span><span class="name">${c.name}</span><span class="tag">무료 시청</span></div>`).join("")}<p class="desc">온라인교육은 신청 없이 누구나 시청 가능하며 수료증은 발급되지 않습니다.</p></div>`;
+ html+=`<div class="group"><h4>은평구 정보화교육 YouTube 채널 · 온라인교육</h4>${ONLINE.map(c=>`<div class="row"><span class="tag">${c.period}</span><span class="tag">${c.days} ${c.time}</span><span class="name">${c.name}</span><span class="tag">${stars(c.level)}</span><span class="tag">무료 시청</span></div>`).join("")}<p class="desc">온라인교육은 신청 없이 누구나 시청 가능하며 수료증은 발급되지 않습니다.</p></div>`;
  $("scheduleTable").innerHTML=html;
 }
-$("scheduleToggle").onclick=()=>{let x=$("scheduleTable");x.classList.toggle("hidden");$("scheduleToggle").textContent=x.classList.contains("hidden")?"10월 전체 시간표 보기":"10월 전체 시간표 닫기"};
-$("restartBtn").onclick=()=>{state={step:1,interest:"",chips:[],answers:{}};$("dongInput").value="";$("interestInput").value="";$("dongStatus").className="status";document.querySelectorAll(".active,.selected").forEach(x=>x.classList.remove("active","selected"));$("toStep2").disabled=true;$("toStep3").disabled=true;$("toStep4").disabled=true;$("scheduleTable").classList.add("hidden");$("scheduleToggle").textContent="10월 전체 시간표 보기";showStep(1)};
+$("scheduleToggle").onclick=()=>{let x=$("scheduleTable");x.classList.toggle("hidden");$("scheduleToggle").textContent=x.classList.contains("hidden")?"11월 전체 시간표 보기":"11월 전체 시간표 닫기"};
+$("restartBtn").onclick=()=>{state={step:1,interest:"",chips:[],answers:{}};$("dongInput").value="";$("interestInput").value="";$("dongStatus").className="status";document.querySelectorAll(".active,.selected").forEach(x=>x.classList.remove("active","selected"));$("toStep2").disabled=true;$("toStep3").disabled=true;$("toStep4").disabled=true;$("scheduleTable").classList.add("hidden");$("scheduleToggle").textContent="11월 전체 시간표 보기";showStep(1)};
 renderProgress();
 </script>
 </body>
